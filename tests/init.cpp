@@ -34,13 +34,13 @@ SCENARIO("stack op=")
 SCENARIO("stack push")
 {
 	stack<int> st;
-	REQUIRE(st.count() == 0);
+	st.push(4);
+	st.push(5);
 	st.push(6);
-	REQUIRE(st.count() == 1);
 	st.push(7);
-	REQUIRE(st.count() == 2);
-	st.push(78);
-	REQUIRE(st.count() == 3);
+	auto p =st.try_pop();
+	REQUIRE(st.size() == 3);
+	REQUIRE(*p==7);
 }
 
 SCENARIO("pop")
