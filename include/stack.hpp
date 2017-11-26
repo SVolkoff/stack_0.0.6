@@ -1,12 +1,14 @@
-
 #include <iostream>
 #include <mutex>
 #include <memory>
 #include <stdexcept>
+#include <utility>
+#include <new>
+#include <thread>
+#include <condition_variable>
 
 #ifndef STACK_HPP
 #define STACK_HPP
-
 
 template <typename T> class stack
 {
@@ -23,6 +25,7 @@ public:
 	bool isempty() const noexcept;
 
 private:
+	std::condition_variable cond_;
 	T * array_;
 	size_t array_size_;
 	size_t count_;
@@ -172,8 +175,7 @@ void stack<T>::push(T const & value)
 	}
 	array_[count_] = value;
 	count_++;
-	
+	cond_.notify_one();
 }
 
 #endif 
-
